@@ -1,0 +1,23 @@
+[
+  {
+    "member_id": "mem_001",
+    "next_charge_date": "2026-09-01",
+    "next_charge_amount": 129.0,
+    "card_last_four": "4242",
+    "outstanding_balance": 0.0
+  },
+  {
+    "member_id": "mem_002",
+    "next_charge_date": "2026-10-12",
+    "next_charge_amount": 89.0,
+    "card_last_four": "1881",
+    "outstanding_balance": 0.0
+  },
+  {
+    "member_id": "mem_003",
+    "next_charge_date": "2026-09-04",
+    "next_charge_amount": 89.0,
+    "card_last_four": "9910",
+    "outstanding_balance": 89.0
+  }
+]

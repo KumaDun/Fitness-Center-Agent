@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Fitness Front Desk</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="auth-panel" id="loginView">
+        <div>
+          <p class="eyebrow">Member portal</p>
+          <h1>Fitness Front Desk</h1>
+          <p class="muted">Continue as a guest for public class, policy, price, and trainer questions. Sign in for bookings, billing, and account details.</p>
+        </div>
+        <form id="loginForm" class="login-form">
+          <label>
+            Username
+            <input id="username" name="username" autocomplete="username" required />
+          </label>
+          <label>
+            Password
+            <input id="password" name="password" type="password" autocomplete="current-password" required />
+          </label>
+          <button type="submit">Sign in</button>
+          <button id="guestButton" type="button" class="secondary">Continue as guest</button>
+          <p id="loginStatus" class="status" role="status"></p>
+        </form>
+      </section>
+
+      <section class="chat-view hidden" id="chatView">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Front desk assistant</p>
+            <h1>Ask the gym</h1>
+          </div>
+          <div class="session-box">
+            <span id="userLabel"></span>
+            <button id="signInButton" type="button" class="secondary" hidden>Sign in</button>
+            <button id="logoutButton" type="button" class="secondary">Sign out</button>
+          </div>
+        </header>
+
+        <div class="quick-prompts" aria-label="Quick prompts">
+          <button type="button" data-prompt="What classes are open tomorrow in Singapore?">Classes</button>
+          <button type="button" data-prompt="What is my membership plan?" data-auth="member">Membership</button>
+          <button type="button" data-prompt="Find member Daniel" data-auth="staff">Find member</button>
+          <button type="button" data-prompt="What is Daniel's membership plan?" data-auth="staff">Member plan</button>
+          <button type="button" data-prompt="What are the membership prices and plan levels?">Prices</button>
+          <button type="button" data-prompt="Tell me about the physical tutors and trainers">Trainers</button>
+          <button type="button" data-prompt="What is my billing balance?" data-auth="member">Billing</button>
+          <button type="button" data-prompt="What is Daniel's billing balance?" data-auth="staff">Member billing</button>
+          <button type="button" data-prompt="Can I bring a guest?">Guest policy</button>
+        </div>
+
+        <div id="messages" class="messages" aria-live="polite"></div>
+
+        <form id="chatForm" class="composer">
+          <input id="messageInput" name="message" placeholder="Ask about classes, policies, bookings, or your account" autocomplete="off" required />
+          <button type="submit">Send</button>
+        </form>
+      </section>
+    </main>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

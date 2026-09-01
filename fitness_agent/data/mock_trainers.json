@@ -1,0 +1,54 @@
+[
+  {
+    "trainer_id": "trn_001",
+    "name": "Nora Lim",
+    "role": "Fitness Trainer",
+    "locations": ["Singapore"],
+    "specialties": ["HIIT", "conditioning", "beginner intervals", "aerobic capacity"],
+    "background": "Certified group fitness trainer with 7 years of coaching experience.",
+    "courses": ["HIIT", "Metabolic Conditioning", "Beginner Intervals"],
+    "certifications": ["ACE Group Fitness"],
+    "consultation_available": true,
+    "notes": "Focuses on safe movement, pacing, and scalable interval training.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "trainer_id": "trn_002",
+    "name": "Iris Chen",
+    "role": "Yoga and Mobility Tutor",
+    "locations": ["Singapore"],
+    "specialties": ["yoga", "mobility", "breath-led stretching", "recovery"],
+    "background": "Yoga and mobility tutor with 500-hour yoga teacher training and 6 years of studio experience.",
+    "courses": ["Yoga Flow", "Mobility Foundations", "Recovery Stretch"],
+    "certifications": ["500-hour Yoga Teacher Training"],
+    "consultation_available": true,
+    "notes": "Teaches controlled movement, flexibility basics, and recovery-focused private sessions.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "trainer_id": "trn_003",
+    "name": "Marcus Wong",
+    "role": "Strength Trainer and Coach",
+    "locations": ["Bangkok"],
+    "specialties": ["strength foundations", "free weights", "barbell technique", "progressive overload"],
+    "background": "Strength and resistance-training coach with a sports science background and 8 years of floor coaching experience.",
+    "courses": ["Strength Foundations", "Free-Weight Technique", "Small-Group Barbell"],
+    "certifications": ["Sports Science Diploma", "NSCA-CPT"],
+    "consultation_available": true,
+    "notes": "Best matched to members who want technique coaching and structured strength progressions.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "trainer_id": "trn_004",
+    "name": "Lena Patel",
+    "role": "Cardio Trainer",
+    "locations": ["Singapore", "Bangkok"],
+    "specialties": ["spin", "cardio endurance", "rhythm cycling", "low-impact aerobic training"],
+    "background": "Indoor cycling and cardio trainer with 5 years of class instruction experience.",
+    "courses": ["Spin", "Cardio Endurance", "Low-Impact Cycling"],
+    "certifications": ["Indoor Cycling Instructor"],
+    "consultation_available": false,
+    "notes": "Works with members building stamina through cycling and lower-impact conditioning.",
+    "last_updated": "2026-09-01"
+  }
+]

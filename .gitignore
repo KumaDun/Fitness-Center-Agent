@@ -1,0 +1,7 @@
+fitness_agent.local.ini
+fitness_agent.preferences.local.json
+.env
+.idea/
+.venv/
+__pycache__/
+*.py[cod]

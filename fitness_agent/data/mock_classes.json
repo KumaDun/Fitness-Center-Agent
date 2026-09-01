@@ -1,0 +1,46 @@
+[
+  {
+    "session_id": "cls_101",
+    "name": "HIIT",
+    "location": "Singapore",
+    "starts_at": "2026-09-02T19:00:00",
+    "duration_minutes": 45,
+    "instructor": "Nora",
+    "capacity": 16,
+    "booked": 16,
+    "plan_required": "Basic"
+  },
+  {
+    "session_id": "cls_102",
+    "name": "Yoga Flow",
+    "location": "Singapore",
+    "starts_at": "2026-09-02T07:00:00",
+    "duration_minutes": 60,
+    "instructor": "Iris",
+    "capacity": 18,
+    "booked": 9,
+    "plan_required": "Basic"
+  },
+  {
+    "session_id": "cls_103",
+    "name": "Strength Foundations",
+    "location": "Bangkok",
+    "starts_at": "2026-09-02T18:00:00",
+    "duration_minutes": 50,
+    "instructor": "Marcus",
+    "capacity": 14,
+    "booked": 11,
+    "plan_required": "Premium"
+  },
+  {
+    "session_id": "cls_104",
+    "name": "Spin",
+    "location": "Singapore",
+    "starts_at": "2026-09-03T12:30:00",
+    "duration_minutes": 45,
+    "instructor": "Lena",
+    "capacity": 20,
+    "booked": 17,
+    "plan_required": "Basic"
+  }
+]

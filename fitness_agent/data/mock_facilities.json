@@ -1,0 +1,14 @@
+[
+  {
+    "location": "Singapore",
+    "hours": "Mon-Fri 06:00-22:00; Sat-Sun 07:00-20:00",
+    "address": "12 Orchard Road",
+    "amenities": ["free weights", "showers", "lockers", "studio"]
+  },
+  {
+    "location": "Bangkok",
+    "hours": "Mon-Fri 06:30-21:30; Sat-Sun 08:00-19:00",
+    "address": "4 Sukhumvit Road",
+    "amenities": ["cardio floor", "showers", "lockers"]
+  }
+]

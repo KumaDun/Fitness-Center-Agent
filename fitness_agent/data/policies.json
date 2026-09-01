@@ -1,0 +1,86 @@
+[
+  {
+    "document": "Member Handbook",
+    "section": "Hours",
+    "text": "Members may access staffed facilities during the published hours for each location.",
+    "last_updated": "2026-08-01"
+  },
+  {
+    "document": "Member Handbook",
+    "section": "Guest Policy",
+    "text": "Premium members may bring one guest per visit. Basic members need a paid guest pass.",
+    "last_updated": "2026-08-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Basic Membership Price",
+    "text": "Basic membership is $89 per month. It includes gym-floor access at one home location, standard group classes, locker-room use, and booking access up to 5 days in advance.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Premium Membership Price",
+    "text": "Premium membership is $129 per month. It includes all Basic benefits, access to all locations, premium classes, one guest per visit, and booking access up to 10 days in advance.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Student Membership Price",
+    "text": "Student membership is $69 per month with valid student identification. It includes off-peak gym access, standard group classes, and booking access up to 3 days in advance.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Family Membership Price",
+    "text": "Family membership starts at $219 per month for two adults at the same address. Additional family members can be added for $45 per person per month.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Joining Conditions",
+    "text": "New memberships require a completed sign-up form, identity verification, a payment method on file, agreement to club rules, and a minimum age of 16. Members aged 16 or 17 need guardian consent.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Billing and Renewal Conditions",
+    "text": "Memberships renew monthly on the renewal date. Failed payments may place the account into past-due status, which can pause booking privileges until the balance is cleared.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Freeze and Cancellation Conditions",
+    "text": "Members may request one freeze per calendar year for 2 to 8 weeks. Cancellation requires 7 days notice before the next renewal date; prepaid or promotional fees may be non-refundable.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Membership Guide",
+    "section": "Before You Buy",
+    "text": "Customers should confirm their preferred location, class access needs, guest needs, renewal date, cancellation window, and any medical clearance requirements before buying a membership.",
+    "last_updated": "2026-09-01"
+  },
+  {
+    "document": "Booking Rules",
+    "section": "Class Cancellation",
+    "text": "Class bookings cancelled less than four hours before start time may incur a late-cancel fee.",
+    "last_updated": "2026-08-15"
+  },
+  {
+    "document": "Booking Rules",
+    "section": "Waitlist",
+    "text": "When a booked member cancels, the first waitlisted member is promoted automatically and notified.",
+    "last_updated": "2026-08-15"
+  },
+  {
+    "document": "Member Handbook",
+    "section": "Medical Advice",
+    "text": "Staff and automated assistants must not provide medical, injury, rehabilitation, or clinical nutrition advice.",
+    "last_updated": "2026-08-01"
+  },
+  {
+    "document": "Member Handbook",
+    "section": "Dress Code",
+    "text": "Closed-toe shoes are required on the gym floor. Studio classes may set additional safety requirements.",
+    "last_updated": "2026-08-01"
+  }
+]

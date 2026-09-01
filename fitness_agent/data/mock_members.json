@@ -1,0 +1,29 @@
+[
+  {
+    "member_id": "mem_001",
+    "name": "Avery Tan",
+    "plan": "Premium",
+    "status": "active",
+    "start_date": "2025-06-01",
+    "renewal_date": "2026-09-01",
+    "home_location": "Singapore"
+  },
+  {
+    "member_id": "mem_002",
+    "name": "Daniel Lim",
+    "plan": "Basic",
+    "status": "frozen",
+    "start_date": "2024-01-12",
+    "renewal_date": "2026-10-12",
+    "home_location": "Bangkok"
+  },
+  {
+    "member_id": "mem_003",
+    "name": "Maya Patel",
+    "plan": "Basic",
+    "status": "past_due",
+    "start_date": "2026-03-04",
+    "renewal_date": "2026-09-04",
+    "home_location": "Singapore"
+  }
+]
