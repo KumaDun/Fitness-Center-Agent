@@ -5,6 +5,7 @@ from typing import Any
 
 from langchain.agents import create_agent
 from langchain.chat_models import init_chat_model
+from langgraph.errors import GraphRecursionError
 from langgraph.checkpoint.memory import MemorySaver
 
 from fitness_agent.agent.prompts import FRONT_DESK_PROMPT
@@ -14,6 +15,7 @@ from fitness_agent.data.preferences import DEFAULT_PREFERENCE_STORE, PreferenceS
 from fitness_agent.models import Principal
 
 DEFAULT_TEMPERATURE = 0.3
+DEFAULT_RECURSION_LIMIT = 30
 
 
 def build_agent(
@@ -49,11 +51,20 @@ def answer_with_llm(
     temperature: float = DEFAULT_TEMPERATURE,
     checkpointer: Any | None = None,
 ) -> str:
-    agent = build_agent(principal, store, preference_store, model, temperature, checkpointer)
-    result = agent.invoke(
-        {"messages": [{"role": "user", "content": message}]},
-        config={"configurable": {"thread_id": principal.thread_id}, "recursion_limit": 10},
-    )
+    effective_checkpointer = checkpointer or MemorySaver()
+    agent = build_agent(principal, store, preference_store, model, temperature, effective_checkpointer)
+    config = {"configurable": {"thread_id": principal.thread_id}, "recursion_limit": DEFAULT_RECURSION_LIMIT}
+    try:
+        result = agent.invoke({"messages": [{"role": "user", "content": message}]}, config=config)
+    except GraphRecursionError as exc:
+        _delete_checkpoint_thread(effective_checkpointer, principal.thread_id)
+        raise RuntimeError("Agent stopped before completing its tool calls. The conversation state was reset.") from exc
+    except Exception as exc:
+        if not _is_incomplete_tool_call_error(exc):
+            raise
+        _delete_checkpoint_thread(effective_checkpointer, principal.thread_id)
+        agent = build_agent(principal, store, preference_store, model, temperature, effective_checkpointer)
+        result = agent.invoke({"messages": [{"role": "user", "content": message}]}, config=config)
     return result["messages"][-1].content
 
 
@@ -62,3 +73,18 @@ def _openai_api_key() -> str:
     if not api_key:
         raise RuntimeError("OPENAI_API_KEY is required for LLM mode with an OpenAI model.")
     return api_key
+
+
+def _is_incomplete_tool_call_error(exc: Exception) -> bool:
+    text = str(exc)
+    return (
+        "tool_calls" in text
+        and "tool_call_id" in text
+        and "did not have response messages" in text
+    )
+
+
+def _delete_checkpoint_thread(checkpointer: Any, thread_id: str) -> None:
+    delete_thread = getattr(checkpointer, "delete_thread", None)
+    if callable(delete_thread):
+        delete_thread(thread_id)

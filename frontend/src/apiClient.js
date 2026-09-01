@@ -43,7 +43,7 @@ export class ApiClient {
     });
   }
 
-  sendMessage(message) {
+  sendMessage(message, options = {}) {
     const body = { message };
     if (!this.getToken()) {
       body.guest_thread_id = this.getGuestThreadId();
@@ -51,6 +51,7 @@ export class ApiClient {
     return this.request("/api/chat/messages", {
       method: "POST",
       body: JSON.stringify(body),
+      signal: options.signal,
     });
   }
 }

@@ -16,6 +16,14 @@ const guestButton = document.querySelector("#guestButton");
 
 const sessions = new SessionStore();
 const api = new ApiClient(() => sessions.token, () => sessions.guestThreadId);
+let activeChatRequest = null;
+
+function abortActiveChatRequest() {
+  if (activeChatRequest) {
+    activeChatRequest.abort();
+    activeChatRequest = null;
+  }
+}
 
 function showChat(user) {
   loginView.classList.add("hidden");
@@ -60,6 +68,7 @@ loginForm.addEventListener("submit", async (event) => {
 });
 
 guestButton.addEventListener("click", () => {
+  abortActiveChatRequest();
   sessions.clear();
   showChat({ username: "Guest", role: "guest" });
   addMessage(messages, "agent", "You can ask public questions about classes, prices, trainers, facilities, and policies. Sign in for account details.");
@@ -74,11 +83,21 @@ chatForm.addEventListener("submit", async (event) => {
 
   addMessage(messages, "user", message);
   messageInput.value = "";
+  abortActiveChatRequest();
+  const controller = new AbortController();
+  activeChatRequest = controller;
   try {
-    const payload = await api.sendMessage(message);
+    const payload = await api.sendMessage(message, { signal: controller.signal });
     addMessage(messages, "agent", payload.answer);
   } catch (error) {
+    if (error.name === "AbortError") {
+      return;
+    }
     addMessage(messages, "agent", `Error: ${error.message}`);
+  } finally {
+    if (activeChatRequest === controller) {
+      activeChatRequest = null;
+    }
   }
 });
 
@@ -90,6 +109,7 @@ document.querySelectorAll("[data-prompt]").forEach((button) => {
 });
 
 logoutButton.addEventListener("click", async () => {
+  abortActiveChatRequest();
   try {
     if (sessions.token) {
       await api.logout();
@@ -101,6 +121,7 @@ logoutButton.addEventListener("click", async () => {
 });
 
 signInButton.addEventListener("click", () => {
+  abortActiveChatRequest();
   sessions.clear();
   showLogin({ reset: true });
 });

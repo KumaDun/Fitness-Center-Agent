@@ -3,9 +3,10 @@ from __future__ import annotations
 import unittest
 import tempfile
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import MagicMock, patch
 
 from fitness_agent.agent import AgentMode, FitnessAgentService, answer_demo, build_agent
+from fitness_agent.agent.graph import DEFAULT_RECURSION_LIMIT, answer_with_llm
 from fitness_agent.agent.tools import build_tools, visible_tool_names
 from fitness_agent.data.mock_store import MockGymStore
 from fitness_agent.data import load_mock_store_data
@@ -232,6 +233,42 @@ class FitnessAgentContractTests(unittest.TestCase):
 
         self.assertIs(service.checkpointer, answer_with_llm.call_args.kwargs["checkpointer"])
         self.assertIs(service.store, answer_with_llm.call_args.kwargs["store"])
+
+    def test_llm_agent_uses_expanded_recursion_limit(self) -> None:
+        principal = Principal("mem_001", Role.MEMBER)
+        agent = MagicMock()
+        agent.invoke.return_value = {"messages": [MagicMock(content="llm answer")]}
+
+        with (
+            patch.dict("os.environ", {"OPENAI_API_KEY": "test-key"}, clear=True),
+            patch("fitness_agent.agent.graph.build_agent", return_value=agent),
+        ):
+            response = answer_with_llm("hello", principal)
+
+        self.assertEqual("llm answer", response)
+        self.assertEqual(DEFAULT_RECURSION_LIMIT, agent.invoke.call_args.kwargs["config"]["recursion_limit"])
+
+    def test_llm_agent_resets_corrupt_tool_call_checkpoint_and_retries(self) -> None:
+        principal = Principal("mem_001", Role.MEMBER)
+        checkpointer = MagicMock()
+        bad_request = RuntimeError(
+            "An assistant message with 'tool_calls' must be followed by tool messages responding to each "
+            "'tool_call_id'. The following tool_call_ids did not have response messages: call_123"
+        )
+        first_agent = MagicMock()
+        first_agent.invoke.side_effect = bad_request
+        second_agent = MagicMock()
+        second_agent.invoke.return_value = {"messages": [MagicMock(content="recovered answer")]}
+
+        with (
+            patch.dict("os.environ", {"OPENAI_API_KEY": "test-key"}, clear=True),
+            patch("fitness_agent.agent.graph.build_agent", side_effect=[first_agent, second_agent]) as build_agent_mock,
+        ):
+            response = answer_with_llm("hello again", principal, checkpointer=checkpointer)
+
+        self.assertEqual("recovered answer", response)
+        checkpointer.delete_thread.assert_called_once_with(principal.thread_id)
+        self.assertEqual(2, build_agent_mock.call_count)
 
     def test_auto_mode_uses_llm_when_openai_key_exists(self) -> None:
         service = FitnessAgentService(mode=AgentMode.AUTO)
