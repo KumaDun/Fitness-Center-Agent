@@ -1,37 +1,60 @@
-from __future__ import annotations
+from dataclasses import dataclass, field
 
-from dataclasses import dataclass
-from pathlib import Path
+"""
+Session store in-memory for temporary
+Will replace with Postgres/Redis
+"""
 
-from fitness_agent.agent import AgentMode, FitnessAgentService
-from fitness_agent.agent.graph import DEFAULT_TEMPERATURE
-from fitness_agent.api.auth import DemoAuthStore, InMemorySessionStore
-from fitness_agent.data.mock_store import MockGymStore
-from fitness_agent.env import EnvLoadResult
+import secrets
+from datetime import datetime, timedelta, timezone
 
+@dataclass
+class Session:
+    token: str
+    username: str
+    role: str
+    subject_id: str
+    expires_at: datetime
+
+class SessionStore:
+    def __init__(self, ttl_minutes: int = 120):
+        self.ttl = timedelta(minutes=ttl_minutes)
+        self.sessions: dict[str, Session] = {}
+
+    def create(self, username: str, role: str, subject_id: str) -> Session:
+        token = secrets.token_urlsafe(32)
+        session = Session(
+            token = token,
+            username = username,
+            role = role,
+            subject_id = subject_id,
+            expires_at = datetime.now(timezone.utc) + self.ttl
+        )
+        self.sessions[token] = session
+        return session
+
+    def get(self, token: str) -> Session | None:
+        session = self.sessions.get(token, None)
+        if session is None:
+            return None
+
+        if session.expires_at < datetime.now(timezone.utc):
+            self.sessions.pop(token, None)
+            return None
+
+        return session
+
+    def delete(self, token: str) -> None:
+        self.sessions.pop(token, None)
+
+from fitness_agent.api.auth import AuthStore
 
 @dataclass
 class AppState:
-    agent_service: FitnessAgentService
-    auth_config: DemoAuthStore | None
-    sessions: InMemorySessionStore
-    env_load_result: EnvLoadResult | None = None
+    mode: str = "demo"
+    auth_configured: bool = False
+    sessions: SessionStore = field(default_factory=SessionStore)
+    auth: AuthStore = field(default_factory=AuthStore)
 
-
-def build_state(
-    mode: AgentMode = AgentMode.AUTO,
-    model: str = "openai:gpt-4.1-mini",
-    temperature: float = DEFAULT_TEMPERATURE,
-    auth_config_path: Path | None = None,
-) -> AppState:
-    auth_config = DemoAuthStore.from_env() if auth_config_path is None else DemoAuthStore.from_sources(auth_config_path)
-    return AppState(
-        agent_service=FitnessAgentService(
-            mode=mode,
-            model=model,
-            temperature=temperature,
-            store=MockGymStore(),
-        ),
-        auth_config=auth_config,
-        sessions=InMemorySessionStore(),
-    )
+def build_state() -> AppState:
+    return AppState()

@@ -32,6 +32,10 @@ frontend/
 
 See [docs/architecture.md](docs/architecture.md) for the current system summary and architecture diagram.
 
+See [docs/modernization-plan.md](docs/modernization-plan.md) for the consolidated rewrite plan covering RAG, PostgreSQL, model routing, latency evaluation, and how the project should align with modern compound AI application architecture.
+
+See [docs/backend-api-design.md](docs/backend-api-design.md) for the proposed versioned backend API contract.
+
 ## Run
 
 ```powershell
