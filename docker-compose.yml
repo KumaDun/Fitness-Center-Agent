@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: fitness_agent_postgres
+    environment:
+      POSTGRES_USER: fitness_agent
+      POSTGRES_PASSWORD: fitness_agent
+      POSTGRES_DB: fitness_agent_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - fitness_agent_postgres:/var/lib/postgresql/data
+
+volumes:
+  fitness_agent_postgres:
