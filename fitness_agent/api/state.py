@@ -49,12 +49,17 @@ class SessionStore:
 
 from fitness_agent.api.auth import AuthStore
 
+class ChatService:
+    def answer(self, message: str, role: str, subject_id: str) -> str:
+        return f"[{role}:{subject_id}]: You said: {message}"
+
 @dataclass
 class AppState:
     mode: str = "demo"
-    auth_configured: bool = False
+    auth_configured: bool = True
     sessions: SessionStore = field(default_factory=SessionStore)
     auth: AuthStore = field(default_factory=AuthStore)
+    chat: ChatService = field(default_factory=ChatService)
 
 def build_state() -> AppState:
     return AppState()

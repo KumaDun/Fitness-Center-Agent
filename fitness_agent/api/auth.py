@@ -6,7 +6,7 @@ from dataclasses import dataclass
 @dataclass
 class DemoUser:
     username: str
-    password: str
+    password_hash: str
     role: str
     subject_id: str
 
@@ -48,7 +48,7 @@ def verify_password(password: str, password_hash: str) -> bool:
     except ValueError:
         return False
 
-    if algorithm != "pdkdf2_sha256":
+    if algorithm != "pbkdf2_sha256":
         return False
 
     actual_hash = hash_password(

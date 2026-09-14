@@ -1,5 +1,4 @@
-from fastapi import Request, Header, HTTPException, status
-from fastapi.params import Depends
+from fastapi import Depends, Request, Header, HTTPException, status
 
 from fitness_agent.api.state import AppState, Session
 
@@ -12,7 +11,7 @@ def bearer_token(authorization: str | None = Header(default = None)) -> str:
     if authorization is None or not authorization.startswith(prefix):
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized",
+            detail="bearer_token: None authorization or not stating with correct prefix",
         )
 
     return authorization[len(prefix):].strip()
@@ -26,6 +25,37 @@ def current_session(
     if session is None:
         raise HTTPException(
             status_code= status.HTTP_401_UNAUTHORIZED,
-            detail="unauthorized",
+            detail="current_session: Cannot find session with token:",
         )
+    return session
+
+def optional_bearer_token(
+        authorization: str | None = Header(default = None),
+) -> str | None:
+    prefix = "Bearer "
+    if authorization is None:
+        return None
+    if not authorization.startswith(prefix):
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="optional_bearer_token: None authorization or not stating with correct prefix",
+        )
+
+    return authorization[len(prefix):].strip()
+
+def optional_session(
+        state: AppState = Depends(get_app_state),
+        token: str | None = Depends(optional_bearer_token),
+) -> Session | None:
+    if token is None:
+        return None
+
+    session = state.sessions.get(token)
+
+    if session is None:
+        raise HTTPException(
+            status_code= status.HTTP_401_UNAUTHORIZED,
+            detail="optional_session: Cannot find session with token:",
+        )
+
     return session

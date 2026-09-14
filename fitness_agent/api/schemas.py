@@ -23,3 +23,9 @@ class SessionResponse(BaseModel):
 
 class OkResponse(BaseModel):
     ok: bool
+
+class ChatRequest(BaseModel):
+    message: str
+
+class ChatResponse(BaseModel):
+    answer: str

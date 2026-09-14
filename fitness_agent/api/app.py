@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from fitness_agent.api.routes import system, sessions
+from fitness_agent.api.routes import system, sessions, chat
 from fitness_agent.api.state import build_state
 
 def create_app() -> FastAPI:
@@ -11,6 +11,7 @@ def create_app() -> FastAPI:
     app.state.fitness_agent = build_state()
     app.include_router(system.router, prefix="/api/v1")
     app.include_router(sessions.router, prefix="/api/v1")
+    app.include_router(chat.router, prefix="/api/v1")
 
     return app
 
